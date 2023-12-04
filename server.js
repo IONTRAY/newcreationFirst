@@ -3,7 +3,7 @@ const session = require('express-session')
 const app = express();
 const requestIp = require('request-ip');
 const crypto = require('crypto');
-
+const cors = require('cors');
 const nodemailer = require("nodemailer");
 
 const PORT = process.env.PORT|| 5000;
@@ -18,6 +18,7 @@ app.use(session({
 app.use(express.static('public')); 
 app.use(express.json());
 app.use(requestIp.mw());
+app.use(cors());
 
 app.listen(PORT, ()=>{
     console.log(`server running on ${PORT}`)
@@ -25,6 +26,7 @@ app.listen(PORT, ()=>{
 
 
 app.get('/', (req, res)=>{
+    res.setHeader("Access-Control-Allow-Credentials","true")
     res.sendFile(__dirname + '/public/index.html')
 })
 
